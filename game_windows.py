@@ -2,7 +2,12 @@ import turtle
 import os
 import math
 import random
-nofenm = 30
+global ending
+import winsound
+filename1 = 'explosion.wav'
+filename2 = 'laser.wav'
+ending = "playing"
+nofenm = int(input("select how many rows of enemies you want to have: ")) * 10
 wn = turtle.Screen()
 wn.bgcolor("black")
 wn.title("Space Invaders")
@@ -70,7 +75,7 @@ bltstt = "ready"
 def fb():
 	global bltstt
 	if bltstt == "ready":
-		os.system("afplay laser.wav&")
+		winsound.PlaySound(filename2, winsound.SND_ASYNC)
 		bltstt = "fire"
 		x = plr.xcor()
 		y = plr.ycor() + 10
@@ -117,7 +122,7 @@ while True:
 					e.sety(y)
 				enemyspeed *= -1
 		if ic(blt, enemy):
-			os.system("afplay explosion.wav")
+			winsound.PlaySound(filename1, winsound.SND_ASYNC)
 			blt.hideturtle()
 			bltstt = "ready"
 			blt.setposition(0, -400)
@@ -127,11 +132,10 @@ while True:
 			sp.clear()
 			sp.write(scstr, False, align="left", font=("Arial", 14, "normal"))
 		if ic(plr, enemy):
-			os.system("afplay explosion.wav")
+			winsound.PlaySound(filename1, winsound.SND_ASYNC)
 			plr.hideturtle()
 			enemy.hideturtle()
-			end = input("game over, press enter to exit")
-			break
+			ending = "abc"
 	if bltstt == "fire":
 		y = blt.ycor()	
 		y += bltspd
@@ -139,6 +143,9 @@ while True:
 	if blt.ycor() > 275:
 		blt.hideturtle()
 		bltstt = "ready"
-	if scr == 30:
+	if ending == "abc":
+		end = input("game over, press enter to exit")
+		break
+	if scr == nofenm:
 		end = input("You Won!!!, press enter to exit")
 		break
